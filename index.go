@@ -6,25 +6,14 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/zalgonoise/x/errs"
 	_ "modernc.org/sqlite"
-)
-
-const (
-	errDomain = errs.Domain("fts")
-
-	ErrZero     = errs.Kind("zero")
-	ErrNotFound = errs.Kind("not found")
-
-	ErrAttributes = errs.Entity("attributes")
-	ErrKeyword    = errs.Entity("keyword")
 )
 
 const (
 	minAlloc = 64
 
 	insertValueQuery = `
-INSERT INTO fulltext_search (id, val) 
+INSERT INTO fulltext_search (id, val)
 	VALUES (?, ?);
 `
 
@@ -39,8 +28,8 @@ DELETE FROM fulltext_search
 )
 
 var (
-	ErrZeroAttributes  = errs.WithDomain(errDomain, ErrZero, ErrAttributes)
-	ErrNotFoundKeyword = errs.WithDomain(errDomain, ErrNotFound, ErrKeyword)
+	ErrZeroAttributes  = errors.New("zero attibutes")
+	ErrNotFoundKeyword = errors.New("keyword not found")
 )
 
 // Index exposes fast full-text search by leveraging the SQLite FTS5 feature.

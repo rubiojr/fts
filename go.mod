@@ -1,4 +1,4 @@
-module github.com/zalgonoise/fts
+module github.com/rubiojr/fts
 
 go 1.21.0
 
@@ -6,7 +6,6 @@ toolchain go1.21.3
 
 require (
 	github.com/stretchr/testify v1.8.4
-	github.com/zalgonoise/x/errs v0.0.0-20231028161929-130f85682aea
 	modernc.org/sqlite v1.26.0
 )
 
