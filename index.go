@@ -29,7 +29,7 @@ DELETE FROM fulltext_search
 
 var (
 	ErrZeroAttributes  = errors.New("zero attibutes")
-	ErrNotFoundKeyword = errors.New("keyword not found")
+	ErrNotFoundKeyword = errors.New("no results found")
 )
 
 // Index exposes fast full-text search by leveraging the SQLite FTS5 feature.
