@@ -169,3 +169,7 @@ func NewIndex[K SQLType, V SQLType](uri string, attrs ...Attribute[K, V]) (*Inde
 
 	return index, nil
 }
+
+func (i *Index[K,V]) HasKey(ctx context.Context, key K) (bool, error) {
+	return keyExists(ctx, i.db, key)
+}

@@ -43,6 +43,9 @@ type Indexer[K SQLType, V SQLType] interface {
 
 	// Shutdown gracefully closes the Indexer.
 	Shutdown(ctx context.Context) error
+
+	// HasKey checks if the input key is present in the Indexer.
+	HasKey(ctx context.Context, key K) (bool, error)
 }
 
 // New creates an Indexer with the input Attribute and configuration options.

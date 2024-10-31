@@ -13,14 +13,19 @@ const (
 	inMemory  = ":memory:"
 
 	checkTableExists = `
-SELECT EXISTS(SELECT 1 FROM sqlite_master 
-	WHERE type='table' 
+SELECT EXISTS(SELECT 1 FROM sqlite_master
+	WHERE type='table'
 	AND name='fulltext_search');
 `
 
 	createTableQuery = `
-CREATE VIRTUAL TABLE fulltext_search 
+CREATE VIRTUAL TABLE fulltext_search
 	USING FTS5(id, val);
+`
+
+	checkKeyExists = `
+SELECT EXISTS(SELECT 1 FROM fulltext_search
+	WHERE id = ?);
 `
 )
 
@@ -63,6 +68,26 @@ func validateURI(uri string) error {
 	}
 
 	return nil
+}
+
+func keyExists(ctx context.Context, db *sql.DB, key any) (bool, error) {
+	r, err := db.QueryContext(ctx, checkKeyExists, key)
+	if err != nil {
+		return false, err
+	}
+
+	defer r.Close()
+
+	for r.Next() {
+		var exists bool
+		if err = r.Scan(&exists); err != nil {
+			return false, err
+		}
+
+		return exists, nil
+	}
+
+	return false, nil
 }
 
 func initDatabase(db *sql.DB) error {

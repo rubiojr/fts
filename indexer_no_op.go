@@ -28,3 +28,5 @@ func (i noOpIndexer[K, V]) Delete(context.Context, ...K) error { return nil }
 //
 // This is a no-op call and the returned error is always nil.
 func (i noOpIndexer[K, V]) Shutdown(context.Context) error { return nil }
+
+func (i noOpIndexer[K, V]) HasKey(context.Context, K) (bool, error) { return false, nil }
