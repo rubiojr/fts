@@ -29,7 +29,7 @@ DELETE FROM fulltext_search
 
 var (
 	ErrZeroAttributes  = errors.New("zero attibutes")
-	ErrNotFoundKeyword = errors.New("no results found")
+	ErrNoResults = errors.New("no results found")
 )
 
 // Index exposes fast full-text search by leveraging the SQLite FTS5 feature.
@@ -52,7 +52,7 @@ type Index[K SQLType, V SQLType] struct {
 // Attribute, which will contain both key and (full) value for that match.
 //
 // This call returns an error if the underlying SQL query fails, if scanning for the results fails, or an
-// ErrNotFoundKeyword error if there are zero results from the query.
+// ErrNoResults error if there are zero results from the query.
 func (i *Index[K, V]) Search(ctx context.Context, searchTerm V) (res []Attribute[K, V], err error) {
 	rows, err := i.db.QueryContext(ctx, searchQuery, searchTerm)
 	if err != nil {
@@ -74,7 +74,7 @@ func (i *Index[K, V]) Search(ctx context.Context, searchTerm V) (res []Attribute
 	}
 
 	if len(res) == 0 {
-		return nil, fmt.Errorf("%w: %v", ErrNotFoundKeyword, searchTerm)
+		return nil, fmt.Errorf("%w: %v", ErrNoResults, searchTerm)
 	}
 
 	return res, nil

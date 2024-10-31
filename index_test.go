@@ -75,13 +75,13 @@ func TestIndex_SearchStrings(t *testing.T) {
 				{Key: 5, Value: "just chips"},
 			},
 			query: "gold",
-			err:   ErrNotFoundKeyword,
+			err:   ErrNoResults,
 		},
 		{
 			name:  "Fail/NoInput",
 			attrs: []Attribute[int, string]{},
 			query: "gold",
-			err:   ErrNotFoundKeyword,
+			err:   ErrNoResults,
 		},
 	} {
 		t.Run(testcase.name, func(t *testing.T) {
@@ -178,13 +178,13 @@ func TestIndex_SearchBytes(t *testing.T) {
 				{Key: 5, Value: []byte("just chips")},
 			},
 			query: []byte("gold"),
-			err:   ErrNotFoundKeyword,
+			err:   ErrNoResults,
 		},
 		{
 			name:  "Fail/NoInput",
 			attrs: []Attribute[int, []byte]{},
 			query: []byte("gold"),
-			err:   ErrNotFoundKeyword,
+			err:   ErrNoResults,
 		},
 	} {
 		t.Run(testcase.name, func(t *testing.T) {
@@ -289,13 +289,13 @@ func TestIndex_SearchSQLTypes(t *testing.T) {
 				{Key: sql.NullInt64{Valid: true, Int64: time5}, Value: sql.NullString{Valid: true, String: "just chips"}},
 			},
 			query: sql.NullString{Valid: true, String: "gold"},
-			err:   ErrNotFoundKeyword,
+			err:   ErrNoResults,
 		},
 		{
 			name:  "Fail/NoInput",
 			attrs: []Attribute[sql.NullInt64, sql.NullString]{},
 			query: sql.NullString{Valid: true, String: "gold"},
-			err:   ErrNotFoundKeyword,
+			err:   ErrNoResults,
 		},
 	} {
 		t.Run(testcase.name, func(t *testing.T) {
