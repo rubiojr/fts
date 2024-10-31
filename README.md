@@ -1,5 +1,7 @@
 ## FTS
 
+Fork of Mario Salgado's [FTS](https://github.com/zalgonoise/fts) library, with some minor changes to simplify the dependency chain.
+
 ### _a SQLite-based full-text search engine_
 
 _________
