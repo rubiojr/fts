@@ -3,7 +3,6 @@ package fts
 import (
 	"context"
 
-	"github.com/zalgonoise/cfg"
 )
 
 // Indexer describes the actions that a full-text search index should expose. It is declared as an
@@ -49,29 +48,15 @@ type Indexer[K SQLType, V SQLType] interface {
 // New creates an Indexer with the input Attribute and configuration options.
 //
 // This function allows creating an Index that is intended to be decorated with a logger, metrics and / or tracing.
-func New[K SQLType, V SQLType](attributes []Attribute[K, V], opts ...cfg.Option[Config]) (Indexer[K, V], error) {
-	config := cfg.New[Config](opts...)
-
+func New[K SQLType, V SQLType](attributes []Attribute[K, V], uri string) (Indexer[K, V], error) {
 	var (
 		indexer Indexer[K, V]
 		err     error
 	)
 
-	indexer, err = NewIndex[K, V](config.uri, attributes...)
+	indexer, err = NewIndex[K, V](uri, attributes...)
 	if err != nil {
 		return NoOp[K, V](), err
-	}
-
-	if config.logHandler != nil {
-		indexer = IndexerWithLogs(indexer, config.logHandler)
-	}
-
-	if config.metrics != nil {
-		indexer = IndexerWithMetrics(indexer, config.metrics)
-	}
-
-	if config.tracer != nil {
-		indexer = IndexerWithTrace(indexer, config.tracer)
 	}
 
 	return indexer, nil
